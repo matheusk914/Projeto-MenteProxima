@@ -1,0 +1,156 @@
+/* =========================================
+   CSS COMPARTILHADO: LOGIN E CADASTRO
+   ========================================= */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  padding: 20px;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.auth-card h1 {
+  font-size: 1.8rem;
+  color: #667eea;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.auth-card h2 {
+  font-size: 1.1rem;
+  color: #555;
+  text-align: center;
+  font-weight: normal;
+  margin-bottom: 28px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.campo label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.campo input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.campo input:focus {
+  border-color: #667eea;
+}
+
+.erro {
+  color: #c0392b;
+  background: #fdecea;
+  border: 1px solid #f5c6cb;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+}
+
+.btn-principal {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-principal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-rodape {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-rodape p {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.btn-link {
+  background: none;
+  border: 2px solid #667eea;
+  color: #667eea;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-link-secundario {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  padding: 4px;
+}
+
+/* Seletor de tipo de conta (Cadastro) */
+.tipo-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.tipo-btn {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.tipo-btn.ativo {
+  border-color: #667eea;
+  background: #f0f0ff;
+  color: #667eea;
+}
+
+/* Aviso de demora no login */
+.aviso-demora {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 6px;
+  color: #7c5a00;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  text-align: center;
+}
