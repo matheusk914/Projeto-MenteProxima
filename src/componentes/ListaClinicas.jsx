@@ -1,8 +1,20 @@
+import { useState } from "react";
 import BadgeGratuidade from "./BadgeGratuidade";
+import AvaliacoesClinica from "./AvaliacoesClinica";
 
-function ListaClinicas({ clinicas, abrirFormEditar, removerClinica }) {
+function ListaClinicas({ clinicas, abrirFormEditar, removerClinica, usuario }) {
+    const [clinicaAberta, setClinicaAberta] = useState(null);
+
     if (clinicas.length === 0) {
         return <p>Nenhuma clínica cadastrada ainda.</p>;
+    }
+
+    function alternarAvaliacoes(id) {
+        if (clinicaAberta === id) {
+            setClinicaAberta(null);
+        } else {
+            setClinicaAberta(id);
+        }
     }
 
     return clinicas.map(function (clinica) {
@@ -29,6 +41,22 @@ function ListaClinicas({ clinicas, abrirFormEditar, removerClinica }) {
                         🗑️ Deletar
                     </button>
                 </div>
+
+                <button
+                    className="btn-ver-avaliacoes"
+                    onClick={function () { alternarAvaliacoes(clinica.id); }}
+                >
+                    {clinicaAberta === clinica.id
+                        ? "▲ Ocultar avaliações"
+                        : "▼ Ver avaliações"}
+                </button>
+
+                {clinicaAberta === clinica.id && (
+                    <AvaliacoesClinica
+                        servicoId={clinica.id}
+                        usuario={usuario}
+                    />
+                )}
             </div>
         );
     });

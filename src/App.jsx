@@ -4,6 +4,7 @@ import Home from "./paginas/Home";
 import Login from "./paginas/Login";
 import Cadastro from "./paginas/Cadastro";
 import Dashboard from "./paginas/Dashboard";
+import DashboardAvaliacoes from "./paginas/DashboardAvaliacoes";
 
 function Conteudo() {
     const [paginaAtual, setPaginaAtual] = useState("home");
@@ -11,7 +12,7 @@ function Conteudo() {
     const { usuario, carregando, salvarLogin, fazerLogout } = useAutenticacao();
 
     function irPara(destino) {
-        if (destino === "dashboard" && !usuario) {
+        if ((destino === "dashboard" || destino === "dashboardAvaliacoes") && !usuario) {
             setPaginaAtual("login");
         } else {
             setPaginaAtual(destino);
@@ -58,6 +59,16 @@ function Conteudo() {
         );
     }
 
+    if (paginaAtual === "dashboardAvaliacoes") {
+        return (
+            <DashboardAvaliacoes
+                usuario={usuario}
+                irPara={irPara}
+                fazerLogout={fazerLogoutENavegar}
+            />
+        );
+    }
+
     return (
         <Home
             usuario={usuario}
@@ -76,3 +87,4 @@ function App() {
 }
 
 export default App;
+/// comentário para resolver conflito de merge

@@ -140,7 +140,7 @@ function Home({ usuario, irPara, fazerLogout }) {
             {mostraResultados && (
                 <section className="resultados-section">
                     <h2>Clínicas encontradas ({clinicas.length})</h2>
-                    <ResultadosClinicas clinicas={clinicas} />
+                    <ResultadosClinicas clinicas={clinicas} usuario={usuario} />
                 </section>
             )}
             {!mostraResultados && <SecaoSobre />}

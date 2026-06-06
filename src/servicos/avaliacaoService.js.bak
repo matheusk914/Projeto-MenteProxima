@@ -1,0 +1,45 @@
+import api from "./api";
+
+export async function buscarAvaliacoes() {
+    const resposta = await api.get("/avaliacoes");
+    return resposta.data;
+}
+
+export async function buscarAvaliacoesPorServico(servicoId) {
+    try {
+        const resposta = await api.get("/avaliacoes?servico_id=" + servicoId);
+        return resposta.data;
+    } catch (errQuery) {
+        const resposta = await api.get("/avaliacoes");
+        const todas = resposta.data;
+        return todas.filter(function (av) {
+            return String(av.servico_id) === String(servicoId) ||
+                   String(av.servicoId) === String(servicoId);
+        });
+    }
+}
+
+export async function cadastrarAvaliacao(dados) {
+    const resposta = await api.post("/avaliacoes", {
+        servico_id: dados.servicoId,
+        usuario_id: dados.usuarioId,
+        nota: dados.nota,
+        comentario: dados.comentario,
+    });
+    return resposta.data;
+}
+
+export async function editarAvaliacao(id, dados) {
+    const resposta = await api.put("/avaliacoes/" + id, {
+        servico_id: dados.servicoId,
+        usuario_id: dados.usuarioId,
+        nota: dados.nota,
+        comentario: dados.comentario,
+    });
+    return resposta.data;
+}
+
+export async function deletarAvaliacao(id) {
+    await api.delete("/avaliacoes/" + id);
+    return true;
+}

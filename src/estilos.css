@@ -135,3 +135,168 @@ input, textarea, select {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================
+   AVALIAÇÕES - componentes reutilizáveis
+   ========================================= */
+
+/* Estrelas de nota */
+.estrela-avaliacao {
+  color: #f5a623;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+/* Topo do card de avaliação (estrelas + nota + autor) */
+.avaliacao-topo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.avaliacao-nota-numero {
+  color: #555;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.avaliacao-autor {
+  color: #777;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.avaliacao-comentario {
+  color: #555;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Lista de avaliações na Home */
+.avaliacoes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* Card individual de avaliação (na Home) */
+.avaliacao-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+/* select do formulário de avaliação */
+.form-card select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  background: white;
+}
+
+.form-card select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* textarea do formulário de avaliação */
+.form-card textarea {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  resize: vertical;
+}
+
+.form-card textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* =========================================
+   AVALIAÇÕES - dentro do card de clínica
+   ========================================= */
+
+.btn-ver-avaliacoes {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 7px 0;
+  background: #f0f4ff;
+  border: 1px solid #c0caff;
+  border-radius: 6px;
+  color: #667eea;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-ver-avaliacoes:hover {
+  background: #e0e8ff;
+}
+
+.avaliacoes-container {
+  margin-top: 12px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.avaliacoes-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.avaliacoes-titulo {
+  font-weight: bold;
+  font-size: 13px;
+  color: #333;
+}
+
+.avaliacoes-media {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.avaliacao-carregando {
+  font-size: 13px;
+  color: #888;
+}
+
+.sem-avaliacoes {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.aviso-login {
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+}
+
+.btn-avaliar {
+  margin-top: 10px;
+  padding: 7px 14px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-avaliar:hover {
+  background: #5a6fd6;
+}

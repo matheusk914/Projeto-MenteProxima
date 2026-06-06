@@ -23,7 +23,7 @@ const FORM_VAZIO = {
 
 function obterNome(usuario) {
     if (!usuario) return "Usuário";
-    return usuario.nome || usuario.email || "Usuário";
+    return usuario.name || usuario.nome || usuario.email || "Usuário";
 }
 
 function coordParaString(valor) {
@@ -182,6 +182,9 @@ function Dashboard({ usuario, irPara, fazerLogout }) {
                 <h1>🧠 Mente Próxima — Painel</h1>
                 <div className="header-info">
                     <span>👤 {obterNome(usuario)}</span>
+                    <button className="btn" onClick={function () { irPara("dashboardAvaliacoes"); }}>
+                        ⭐ Avaliações
+                    </button>
                     <button className="btn" onClick={fazerLogout}>
                         Sair
                     </button>
@@ -321,6 +324,7 @@ function Dashboard({ usuario, irPara, fazerLogout }) {
                         clinicas={clinicas}
                         abrirFormEditar={abrirFormEditar}
                         removerClinica={removerClinica}
+                        usuario={usuario}
                     />
                 </div>
             </main>
