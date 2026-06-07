@@ -1,0 +1,302 @@
+/* Reset básico - remove margens e paddings padrão do navegador */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+}
+
+button {
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+
+input, textarea, select {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* =========================================
+   BOTÕES - usados em várias páginas
+   ========================================= */
+
+/* Botão padrão (cinza/branco) */
+.btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background: #f0f0f0;
+}
+
+/* Botão azul - ação principal */
+.btn-azul {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  background: #667eea;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.btn-azul:hover {
+  background: #5a6fd6;
+}
+
+.btn-azul:disabled,
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   BADGE DE GRATUIDADE - componente reutilizável
+   ========================================= */
+.badge-gratuito {
+  display: inline-block;
+  background: #d4edda;
+  color: #155724;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.badge-pago {
+  display: inline-block;
+  background: #f8d7da;
+  color: #721c24;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* =========================================
+   CARDS DE CLÍNICA - usados em Home e Dashboard
+   ========================================= */
+.clinica-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+.clinica-card h3,
+.clinica-card h4 {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.clinica-card p {
+  color: #555;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.clinica-card .tipo {
+  color: #667eea;
+  font-weight: bold;
+}
+
+.clinica-card .distancia {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+/* =========================================
+   GRID DE CLÍNICAS
+   ========================================= */
+.clinicas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .clinicas-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   AVALIAÇÕES - componentes reutilizáveis
+   ========================================= */
+
+/* Estrelas de nota */
+.estrela-avaliacao {
+  color: #f5a623;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+/* Topo do card de avaliação (estrelas + nota + autor) */
+.avaliacao-topo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.avaliacao-nota-numero {
+  color: #555;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.avaliacao-autor {
+  color: #777;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.avaliacao-comentario {
+  color: #555;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Lista de avaliações na Home */
+.avaliacoes-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* Card individual de avaliação (na Home) */
+.avaliacao-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+/* select do formulário de avaliação */
+.form-card select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  background: white;
+}
+
+.form-card select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* textarea do formulário de avaliação */
+.form-card textarea {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  resize: vertical;
+}
+
+.form-card textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* =========================================
+   AVALIAÇÕES - dentro do card de clínica
+   ========================================= */
+
+.btn-ver-avaliacoes {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 7px 0;
+  background: #f0f4ff;
+  border: 1px solid #c0caff;
+  border-radius: 6px;
+  color: #667eea;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-ver-avaliacoes:hover {
+  background: #e0e8ff;
+}
+
+.avaliacoes-container {
+  margin-top: 12px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.avaliacoes-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.avaliacoes-titulo {
+  font-weight: bold;
+  font-size: 13px;
+  color: #333;
+}
+
+.avaliacoes-media {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.avaliacao-carregando {
+  font-size: 13px;
+  color: #888;
+}
+
+.sem-avaliacoes {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.aviso-login {
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+}
+
+.btn-avaliar {
+  margin-top: 10px;
+  padding: 7px 14px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-avaliar:hover {
+  background: #5a6fd6;
+}
