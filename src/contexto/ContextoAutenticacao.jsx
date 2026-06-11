@@ -7,7 +7,7 @@ export function ProvedorAutenticacao({ children }) {
     const [token, setToken] = useState(null);
     const [carregando, setCarregando] = useState(true);
 
-    useEffect(() => {
+    useEffect(function () {
         const usuarioSalvo = localStorage.getItem("usuario");
         const tokenSalvo = localStorage.getItem("token");
 
@@ -15,7 +15,7 @@ export function ProvedorAutenticacao({ children }) {
             try {
                 setUsuario(JSON.parse(usuarioSalvo));
                 setToken(tokenSalvo);
-            } catch {
+            } catch (err) {
                 localStorage.removeItem("usuario");
                 localStorage.removeItem("token");
             }

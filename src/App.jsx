@@ -5,6 +5,7 @@ import Login from "./paginas/Login";
 import Cadastro from "./paginas/Cadastro";
 import Dashboard from "./paginas/Dashboard";
 import DashboardAvaliacoes from "./paginas/DashboardAvaliacoes";
+import CadastroFuncionario from "./paginas/CadastroFuncionario";
 
 function Conteudo() {
     const [paginaAtual, setPaginaAtual] = useState("home");
@@ -12,7 +13,7 @@ function Conteudo() {
     const { usuario, carregando, salvarLogin, fazerLogout } = useAutenticacao();
 
     function irPara(destino) {
-        if ((destino === "dashboard" || destino === "dashboardAvaliacoes") && !usuario) {
+        if ((destino === "dashboard" || destino === "dashboardAvaliacoes" || destino === "cadastroFuncionario") && !usuario) {
             setPaginaAtual("login");
         } else {
             setPaginaAtual(destino);
@@ -62,6 +63,16 @@ function Conteudo() {
     if (paginaAtual === "dashboardAvaliacoes") {
         return (
             <DashboardAvaliacoes
+                usuario={usuario}
+                irPara={irPara}
+                fazerLogout={fazerLogoutENavegar}
+            />
+        );
+    }
+
+    if (paginaAtual === "cadastroFuncionario") {
+        return (
+            <CadastroFuncionario
                 usuario={usuario}
                 irPara={irPara}
                 fazerLogout={fazerLogoutENavegar}

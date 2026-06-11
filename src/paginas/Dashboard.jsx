@@ -185,6 +185,9 @@ function Dashboard({ usuario, irPara, fazerLogout }) {
                     <button className="btn" onClick={function () { irPara("dashboardAvaliacoes"); }}>
                         ⭐ Avaliações
                     </button>
+                    <button className="btn" onClick={function () { irPara("cadastroFuncionario"); }}>
+                        👥 Funcionários
+                    </button>
                     <button className="btn" onClick={fazerLogout}>
                         Sair
                     </button>

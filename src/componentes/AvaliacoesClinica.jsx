@@ -17,31 +17,6 @@ function obterTextoSalvarEdicao(enviando) {
     return "Salvar";
 }
 
-// Cobre todos os formatos de ID que a API pode retornar no objeto usuário
-function obterIdUsuario(usuario) {
-    if (!usuario) return null;
-    return usuario.id || usuario._id || usuario.usuario_id || null;
-}
-
-// Cobre todos os formatos de ID do usuário dentro de uma avaliação
-function obterIdUsuarioDaAvaliacao(avaliacao) {
-    return avaliacao.usuario_id || avaliacao.usuarioId || avaliacao.user_id || null;
-}
-
-// Cobre todos os formatos de nome dentro de uma avaliação
-function obterNomeAutor(avaliacao) {
-    return (
-        avaliacao.nome_usuario ||
-        avaliacao.nomeUsuario ||
-        avaliacao.usuario?.name ||
-        avaliacao.usuario?.nome ||
-        avaliacao.user?.name ||
-        avaliacao.user?.nome ||
-        avaliacao.autor ||
-        null
-    );
-}
-
 function AvaliacoesClinica({ servicoId, usuario }) {
     const [avaliacoes, setAvaliacoes] = useState([]);
     const [carregando, setCarregando] = useState(true);
@@ -58,7 +33,6 @@ function AvaliacoesClinica({ servicoId, usuario }) {
 
     async function carregarAvaliacoes() {
         setCarregando(true);
-        setErro("");
         try {
             const dados = await buscarAvaliacoesPorServico(servicoId);
             setAvaliacoes(dados);
@@ -102,10 +76,7 @@ function AvaliacoesClinica({ servicoId, usuario }) {
 
     function ehDoUsuario(avaliacao) {
         if (!usuario) return false;
-        // Somente o autor da avaliação pode editar ou deletar
-        const idUsuarioLogado = parseInt(obterIdUsuario(usuario));
-        const idDaAvaliacao   = parseInt(obterIdUsuarioDaAvaliacao(avaliacao));
-        return !isNaN(idUsuarioLogado) && idUsuarioLogado === idDaAvaliacao;
+        return avaliacao.usuarioId === usuario.id;
     }
 
     async function enviarAvaliacao(evento) {
@@ -120,7 +91,7 @@ function AvaliacoesClinica({ servicoId, usuario }) {
 
         const dados = {
             servicoId: servicoId,
-            usuarioId: obterIdUsuario(usuario),
+            usuarioId: usuario.id,
             nota: parseInt(form.nota),
             comentario: form.comentario,
         };
@@ -189,20 +160,17 @@ function AvaliacoesClinica({ servicoId, usuario }) {
             {!carregando && avaliacoes.length > 0 && (
                 <div className="avaliacoes-lista">
                     {avaliacoes.map(function (avaliacao) {
-                        const nomeAutor = obterNomeAutor(avaliacao);
-                        const podeMexer = ehDoUsuario(avaliacao);
-
                         return (
                             <div key={avaliacao.id} className="avaliacao-card">
                                 <div className="avaliacao-topo">
                                     <EstrelaAvaliacao nota={avaliacao.nota} />
                                     <span className="avaliacao-nota-numero">{avaliacao.nota}/5</span>
                                     <span className="avaliacao-autor">
-                                        👤 {nomeAutor || (usuario && String(obterIdUsuarioDaAvaliacao(avaliacao)) === String(obterIdUsuario(usuario)) ? (usuario.name || usuario.nome || usuario.email) : "Usuário")}
+                                        👤 {avaliacao.nomeUsuario || "Usuário"}
                                     </span>
                                 </div>
                                 <p className="avaliacao-comentario">{avaliacao.comentario}</p>
-                                {podeMexer && (
+                                {ehDoUsuario(avaliacao) && (
                                     <div className="card-botoes">
                                         <button
                                             className="btn-pequeno"

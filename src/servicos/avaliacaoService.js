@@ -6,20 +6,11 @@ export async function buscarAvaliacoes() {
 }
 
 export async function buscarAvaliacoesPorServico(servicoId) {
-    // Garante que servicoId é um número válido antes de qualquer coisa
-    const idNumerico = parseInt(servicoId);
-    if (isNaN(idNumerico)) {
-        return [];
-    }
-
     const resposta = await api.get("/avaliacoes");
     const todas = resposta.data;
 
-    if (!Array.isArray(todas)) return [];
-
     return todas.filter(function (av) {
-        // A API retorna servico_id como número — comparação numérica direta
-        return parseInt(av.servico_id) === idNumerico;
+        return parseInt(av.servico_id) === parseInt(servicoId);
     });
 }
 
