@@ -1,0 +1,239 @@
+import { useState, useEffect } from "react";
+import {
+    buscarAvaliacoes,
+    criarAvaliacao,
+    editarAvaliacao,
+    deletarAvaliacao,
+} from "../servicos/avaliacaoService";
+import EstrelaAvaliacao from "./EstrelaAvaliacao";
+
+function AvaliacoesClinica({ servicoId, usuario }) {
+    const [avaliacoes, setAvaliacoes] = useState([]);
+    const [carregando, setCarregando] = useState(true);
+    const [enviando, setEnviando] = useState(false);
+    const [mostraForm, setMostraForm] = useState(false);
+    const [avaliacaoEditando, setAvaliacaoEditando] = useState(null);
+    const [form, setForm] = useState({ nota: "5", comentario: "" });
+    const [erro, setErro] = useState("");
+    const [sucesso, setSucesso] = useState("");
+
+    useEffect(function () {
+        carregarAvaliacoes();
+    }, [servicoId]);
+
+    async function carregarAvaliacoes() {
+        setCarregando(true);
+        try {
+            const dados = await buscarAvaliacoes(servicoId);
+            setAvaliacoes(dados);
+        } catch (err) {
+            setErro("Erro ao carregar: " + err.message);
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+    function atualizarCampo(campo, valor) {
+        setForm({ ...form, [campo]: valor });
+    }
+
+    function abrirFormNovo() {
+        setForm({ nota: "5", comentario: "" });
+        setAvaliacaoEditando(null);
+        setErro("");
+        setSucesso("");
+        setMostraForm(true);
+    }
+
+    function abrirFormEditar(avaliacao) {
+        setForm({
+            nota: avaliacao.nota ? avaliacao.nota.toString() : "5",
+            comentario: avaliacao.comentario || "",
+        });
+        setAvaliacaoEditando(avaliacao);
+        setErro("");
+        setSucesso("");
+        setMostraForm(true);
+    }
+
+    function fecharForm() {
+        setForm({ nota: "5", comentario: "" });
+        setAvaliacaoEditando(null);
+        setMostraForm(false);
+        setErro("");
+        setSucesso("");
+    }
+
+    function ehDoUsuario(avaliacao) {
+        if (!usuario) return false;
+        return avaliacao.usuarioId === usuario.id;
+    }
+
+    async function enviarAvaliacao(evento) {
+        evento.preventDefault();
+        setErro("");
+        setSucesso("");
+
+        if (!form.comentario.trim()) {
+            setErro("Escreva um comentário antes de enviar.");
+            return;
+        }
+
+        const dados = {
+            servicoId: servicoId,
+            usuarioId: usuario.id,
+            nota: parseInt(form.nota),
+            comentario: form.comentario,
+        };
+
+        setEnviando(true);
+        try {
+            if (avaliacaoEditando) {
+                await editarAvaliacao(avaliacaoEditando.id, dados);
+                setSucesso("Avaliação atualizada!");
+            } else {
+                await criarAvaliacao(dados);
+                setSucesso("Avaliação enviada!");
+            }
+            fecharForm();
+            carregarAvaliacoes();
+        } catch (err) {
+            setErro("Erro: " + err.message);
+        } finally {
+            setEnviando(false);
+        }
+    }
+
+    async function removerAvaliacao(id) {
+        if (!window.confirm("Deletar esta avaliação?")) return;
+        setErro("");
+        try {
+            await deletarAvaliacao(id);
+            setSucesso("Avaliação deletada!");
+            carregarAvaliacoes();
+        } catch (err) {
+            setErro("Erro ao deletar: " + err.message);
+        }
+    }
+
+    function calcularMedia() {
+        if (avaliacoes.length === 0) return null;
+        const soma = avaliacoes.reduce(function (acc, av) {
+            return acc + av.nota;
+        }, 0);
+        return (soma / avaliacoes.length).toFixed(1);
+    }
+
+    const media = calcularMedia();
+
+    return (
+        <div className="avaliacoes-container">
+            <div className="avaliacoes-cabecalho">
+                <span className="avaliacoes-titulo">Avaliações ({avaliacoes.length})</span>
+                {media && (
+                    <span className="avaliacoes-media">
+                        <EstrelaAvaliacao nota={Math.round(media)} />
+                        <span className="avaliacao-nota-numero">{media}/5</span>
+                    </span>
+                )}
+            </div>
+
+            {sucesso && <p className="msg-sucesso">{sucesso}</p>}
+            {erro && <p className="msg-erro">{erro}</p>}
+
+            {carregando && <p className="avaliacao-carregando">Carregando...</p>}
+
+            {!carregando && avaliacoes.length === 0 && (
+                <p className="sem-avaliacoes">Nenhuma avaliação ainda.</p>
+            )}
+
+            {!carregando && avaliacoes.length > 0 && (
+                <div className="avaliacoes-lista">
+                    {avaliacoes.map(function (avaliacao) {
+                        return (
+                            <div key={avaliacao.id} className="avaliacao-card">
+                                <div className="avaliacao-topo">
+                                    <EstrelaAvaliacao nota={avaliacao.nota} />
+                                    <span className="avaliacao-nota-numero">{avaliacao.nota}/5</span>
+                                    <span className="avaliacao-autor">
+                                        {avaliacao.nomeUsuario || "Usuário"}
+                                    </span>
+                                </div>
+                                <p className="avaliacao-comentario">{avaliacao.comentario}</p>
+                                {ehDoUsuario(avaliacao) && (
+                                    <div className="card-botoes">
+                                        <button
+                                            className="btn-pequeno"
+                                            onClick={function () { abrirFormEditar(avaliacao); }}
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            className="btn-pequeno btn-vermelho"
+                                            onClick={function () { removerAvaliacao(avaliacao.id); }}
+                                        >
+                                            Deletar
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+
+            {usuario && !mostraForm && (
+                <button className="btn-avaliar" onClick={abrirFormNovo}>
+                    Escrever Avaliação
+                </button>
+            )}
+
+            {!usuario && (
+                <p className="aviso-login">Faça login para deixar uma avaliação.</p>
+            )}
+
+            {mostraForm && (
+                <div className="form-card">
+                    <form onSubmit={enviarAvaliacao}>
+                        <div className="form-linha">
+                            <select
+                                value={form.nota}
+                                onChange={function (e) { atualizarCampo("nota", e.target.value); }}
+                                disabled={enviando}
+                            >
+                                <option value="1">1 - Péssimo</option>
+                                <option value="2">2 - Ruim</option>
+                                <option value="3">3 - Bom</option>
+                                <option value="4">4 - Muito Bom</option>
+                                <option value="5">5 - Excelente</option>
+                            </select>
+                        </div>
+                        <textarea
+                            placeholder="Conte sua experiência com esta clínica..."
+                            value={form.comentario}
+                            onChange={function (e) { atualizarCampo("comentario", e.target.value); }}
+                            disabled={enviando}
+                            rows={3}
+                            required
+                        />
+                        <div className="form-botoes">
+                            <button type="submit" className="btn-azul" disabled={enviando}>
+                                {enviando ? "Enviando..." : "Enviar"}
+                            </button>
+                            <button
+                                type="button"
+                                className="btn"
+                                onClick={fecharForm}
+                                disabled={enviando}
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default AvaliacoesClinica;
